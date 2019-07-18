@@ -7,5 +7,6 @@ repositories {
 
 dependencies {
   compile 'com.google.guava:guava:28.0-jre'
+  compile files('lib\\rxtx-comm.jar');
   implementation 'com.google.code.gson:gson:2.8.5'
 }

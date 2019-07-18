@@ -54,7 +54,12 @@ public class WebServer implements Runnable
             @Override
             public Object getData()
             {
-                return "SCALE_VALUE";
+                if (ServiceWrapper.getWeightScale() != null)
+                {
+                    return String.valueOf(ServiceWrapper.getWeightScale().getScaleValue());
+                }
+                
+                return "SCALE_DISCONNECTED";
             }
         }));
         REQUESTS.add(new StandardRequestHandler("/sys/ports/com", new RequestHandler.IDataHandler() {
@@ -62,7 +67,7 @@ public class WebServer implements Runnable
             public Object getData()
             {
                 ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-                
+
                 for (ComPortEntry com : Util.getListOfComPorts())
                 {
                     ArrayList<String> portInfo = new ArrayList<String>();
@@ -70,7 +75,7 @@ public class WebServer implements Runnable
                     portInfo.add(com.getFriendlyName());
                     list.add(portInfo);
                 }
-                
+
                 return Util.toJson(list);
             }
         }));

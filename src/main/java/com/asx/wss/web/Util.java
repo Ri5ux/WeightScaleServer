@@ -57,6 +57,12 @@ public class Util
         {
             return port;
         }
+        
+        @Override
+        public String toString()
+        {
+            return String.format("[%s] %s", getPort(), getFriendlyName());
+        }
     }
 
     public static ArrayList<ComPortEntry> getListOfComPorts()
