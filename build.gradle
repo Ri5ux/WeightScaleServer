@@ -1,5 +1,10 @@
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+mainClassName = 'com.asx.wss.ServiceWrapper'
 
 repositories {
   mavenCentral()
@@ -8,5 +13,14 @@ repositories {
 dependencies {
   compile 'com.google.guava:guava:28.0-jre'
   compile files('lib\\rxtx-comm.jar');
-  implementation 'com.google.code.gson:gson:2.8.5'
+  compile 'com.google.code.gson:gson:2.8.5'
+}
+
+jar {
+  manifest {
+    attributes(
+      "Class-Path": configurations.compile.collect { "lib\\" + it.getName() }.join(' '),
+      'Main-Class': application.mainClassName
+    )
+  }
 }
