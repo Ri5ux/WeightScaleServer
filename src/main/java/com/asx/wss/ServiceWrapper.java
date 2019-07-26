@@ -1,9 +1,12 @@
-package com.asx.wss.web;
+package com.asx.wss;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import com.asx.wss.web.Util.ComPortEntry;
+import com.asx.wss.Util.ComPortEntry;
+import com.asx.wss.config.Config;
+import com.asx.wss.scale.SerialWeightScale;
+import com.asx.wss.web.WebServer;
 
 public class ServiceWrapper
 {

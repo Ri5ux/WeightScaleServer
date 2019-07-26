@@ -1,4 +1,4 @@
-package com.asx.wss.web;
+package com.asx.wss;
 
 import java.io.BufferedReader;
 import java.util.Arrays;

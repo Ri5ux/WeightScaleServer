@@ -16,9 +16,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import com.asx.wss.ServiceWrapper;
+import com.asx.wss.Util;
+import com.asx.wss.Util.ComPortEntry;
 import com.asx.wss.web.RequestHandler.CommandRequestHandler;
 import com.asx.wss.web.RequestHandler.StandardRequestHandler;
-import com.asx.wss.web.Util.ComPortEntry;
 import com.google.common.io.ByteStreams;
 
 public class WebServer implements Runnable
