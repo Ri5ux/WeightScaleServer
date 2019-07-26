@@ -20,14 +20,12 @@ import com.asx.wss.web.RequestHandler.CommandRequestHandler;
 import com.asx.wss.web.RequestHandler.StandardRequestHandler;
 import com.asx.wss.web.Util.ComPortEntry;
 import com.google.common.io.ByteStreams;
-import com.google.gson.Gson;
 
 public class WebServer implements Runnable
 {
     public static final File                 WEB_ROOT             = new File(".");
     public static final String               DEFAULT_FILE         = "index.html";
     public static final String               METHOD_NOT_SUPPORTED = "not_supported.html";
-    public static final int                  PORT                 = 7750;
 
     private static boolean                   verbose              = false;
     private static boolean                   isRunning            = false;
@@ -96,8 +94,9 @@ public class WebServer implements Runnable
 
                 try
                 {
-                    socket = new ServerSocket(PORT);
-                    System.out.println("Weight Scale Server service started.\nListening for connections on port " + PORT + "...\n");
+                    int port = ServiceWrapper.config().settings().getWebServerPort();
+                    socket = new ServerSocket(port);
+                    System.out.println("Weight Scale Server service started.\nListening for connections on port " + port + "...\n");
 
                     while (isRunning)
                     {
@@ -156,7 +155,7 @@ public class WebServer implements Runnable
 
         try
         {
-            InputStream stream = ByteStreams.limit(connection.getInputStream(), 1024 * 256);// Limit the input to 256KB of data
+            InputStream stream = ByteStreams.limit(connection.getInputStream(), 1024 * ServiceWrapper.config().settings().getWebServerRequestSizeMax());// Limit the input to 256KB of data
             in = new BufferedReader(new InputStreamReader(stream));
             out = new PrintWriter(connection.getOutputStream());
             dataOut = new BufferedOutputStream(connection.getOutputStream());
@@ -181,23 +180,34 @@ public class WebServer implements Runnable
             }
             else
             {
+                /**
+                if (request.endsWith("/"))
+                {
+                    request += DEFAULT_FILE;
+                }
+
+                if (method.equals("GET"))
+                {
+                    File file = new File(WEB_ROOT, request);
+                    int fileLength = (int) file.length();
+                    byte[] fileData = readFileData(file, fileLength);
+
+                    buildGenericHeader(out, dataOut, fileLength);
+                    sendData(out, dataOut, fileData, fileLength);
+                }
+
+                if (verbose)
+                {
+                    String content = getContentType(request);
+                    System.out.println("File " + request + " of type " + content + " returned");
+                }
+                **/
+                
                 String o = "<style>html {font-family: 'Segoe UI', Arial; color: #FFFFFF; background-color: #000000; margin: 0px;} body {max-width: 400px; margin: 30px auto; text-align: center;} a {color: #00AAFF;}</style><h2>Weight Scale Web Server</h2><a href='https://github.com/Ri5ux/WeightScaleServer'>https://github.com/Ri5ux/WeightScaleServer<br/></a>Copyright &copy; 2019 ASX Electronics";
 
                 WebServer.buildGenericHeader(out, dataOut, o.length());
                 WebServer.sendData(out, dataOut, o.getBytes(), o.length());
             }
-
-            /**
-             * else { if (request.endsWith("/")) { request += DEFAULT_FILE; }
-             * 
-             * if (method.equals("GET")) { File file = new File(WEB_ROOT, request); int fileLength = (int)
-             * file.length(); byte[] fileData = readFileData(file, fileLength);
-             * 
-             * buildGenericHeader(out, dataOut, fileLength); sendData(out, dataOut, fileData, fileLength); }
-             * 
-             * if (verbose) { String content = getContentType(request); System.out.println("File " + request + "
-             * of type " + content + " returned"); } }
-             **/
         }
         catch (FileNotFoundException fnfe)
         {

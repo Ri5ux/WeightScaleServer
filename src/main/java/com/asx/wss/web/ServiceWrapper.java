@@ -28,7 +28,7 @@ public class ServiceWrapper
             {
                 long time = System.currentTimeMillis();
 
-                if (reconnectTime > 0 && time - reconnectTime > 5000 || reconnectTime == 0)
+                if (reconnectTime > 0 && time - reconnectTime > ServiceWrapper.config.settings().getPortRescanInterval() || reconnectTime == 0)
                 {
                     reconnectTime = time;
                     System.out.println("Scale not detected, scanning COM ports...");
@@ -40,7 +40,7 @@ public class ServiceWrapper
                     {
                         System.out.println(port.toString());
 
-                        if (port.getFriendlyName().equalsIgnoreCase("\\Device\\BthModem0"))
+                        if (port.getFriendlyName().equalsIgnoreCase(ServiceWrapper.config().settings().getCOMPort()))
                         {
                             scalePort = port.getPort();
                         }
@@ -89,5 +89,10 @@ public class ServiceWrapper
     public static void disconnectScale()
     {
         scale = null;
+    }
+    
+    public static Config config()
+    {
+        return config;
     }
 }
