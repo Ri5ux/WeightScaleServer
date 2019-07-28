@@ -283,6 +283,7 @@ public class WebServer implements Runnable
         out.println("Date: " + new Date());
         out.println("Content-type: " + "text/html");
         out.println("Content-length: " + length);
+        out.println("Access-Control-Allow-Origin: *");
         out.println();
         out.flush();
 
@@ -307,6 +308,7 @@ public class WebServer implements Runnable
         out.println("Date: " + new Date());
         out.println("Content-type: " + contentMimeType);
         out.println("Content-length: " + fileLength);
+        out.println("Access-Control-Allow-Origin: *");
         out.println();
         out.flush();
         sendData(out, dataOut, fileData, fileLength);
@@ -319,6 +321,7 @@ public class WebServer implements Runnable
         out.println("Date: " + new Date());
         out.println("Content-type: " + "text/html");
         out.println("Content-length: " + dataLength);
+        out.println("Access-Control-Allow-Origin: *");
         out.println();
         out.flush();
     }
