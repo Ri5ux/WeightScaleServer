@@ -43,7 +43,7 @@ public class ServiceWrapper
                     {
                         System.out.println(port.toString());
 
-                        if (port.getFriendlyName().equalsIgnoreCase(ServiceWrapper.config().settings().getCOMPort()))
+                        if (port.getPort().equalsIgnoreCase(ServiceWrapper.config().settings().getCOMPort()))
                         {
                             scalePort = port.getPort();
                         }
@@ -77,6 +77,16 @@ public class ServiceWrapper
     public static SerialWeightScale getWeightScale()
     {
         return scale;
+    }
+    
+    public static void killScale()
+    {
+        if (scale != null && scale.isConnected())
+        {
+            scale.close();
+        }
+        
+        scale = null;
     }
 
     public static void terminate()
