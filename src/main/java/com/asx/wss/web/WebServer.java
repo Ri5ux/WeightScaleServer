@@ -54,7 +54,7 @@ public class WebServer implements Runnable
             @Override
             public Object getData()
             {
-                if (ServiceWrapper.getWeightScale() != null)
+                if (ServiceWrapper.getWeightScale() != null && ServiceWrapper.getWeightScale().isConnected())
                 {
                     return String.valueOf(ServiceWrapper.getWeightScale().getScaleValue());
                 }
