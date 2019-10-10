@@ -50,7 +50,7 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
     <ROW File="gson2.8.5.jar" Component_="gson2.8.5.jar" FileName="GSON-2~1.JAR|gson-2.8.5.jar" Attributes="0" SourcePath="application\lib\gson-2.8.5.jar" SelfReg="false"/>
     <ROW File="rxtxSerial.dll" Component_="rxtxSerial.dll" FileName="RXTXSE~1.DLL|rxtxSerial.dll" Attributes="0" SourcePath="application\rxtxSerial.dll" SelfReg="false"/>
-    <ROW File="WeightScaleServer.jar" Component_="WeightScaleServer.jar" FileName="WEIGHT~1.JAR|WeightScaleServer.jar" Attributes="0" SourcePath="application\WeightScaleServer.jar" SelfReg="false"/>
+    <ROW File="WeightScaleServer.jar" Component_="WeightScaleServer.jar" FileName="WEIGHT~1.JAR|WeightScaleServer.jar" Attributes="0" SourcePath="..\build\libs\WeightScaleServer.jar" SelfReg="false"/>
     <ROW File="WeightScaleServerService.exe" Component_="WeightScaleServerService.exe" FileName="WSS-SE~1.EXE|wss-service.exe" Attributes="0" SourcePath="&lt;AI_STUBS_64&gt;aijcl.exe" SelfReg="false" DigSign="true"/>
     <ROW File="guava28.0jre.jar" Component_="gson2.8.5.jar" FileName="GUAVA-~1.JAR|guava-28.0-jre.jar" Attributes="0" SourcePath="application\lib\guava-28.0-jre.jar" SelfReg="false"/>
     <ROW File="rxtxcomm.jar" Component_="gson2.8.5.jar" FileName="RXTX-C~1.JAR|rxtx-comm.jar" Attributes="0" SourcePath="application\lib\rxtx-comm.jar" SelfReg="false"/>
