@@ -62,11 +62,61 @@ public class WebServer implements Runnable
                 return "SCALE_DISCONNECTED";
             }
         }));
+        REQUESTS.add(new StandardRequestHandler("/scale/zero", new RequestHandler.IDataHandler() {
+            @Override
+            public Object getData()
+            {
+                System.out.println("Sending zero command to scale...");
+                boolean result = ServiceWrapper.getWeightScale().reset();
+                
+                if (!result)
+                {
+                    System.out.println("Scale zero failed.");
+                }
+                
+                return String.valueOf(result);
+            }
+        }));
         REQUESTS.add(new StandardRequestHandler("/settings", new RequestHandler.IDataHandler() {
             @Override
             public Object getData()
             {
                 return String.valueOf(ServiceWrapper.config().settingsAsJson());
+            }
+        }));
+        REQUESTS.add(new StandardRequestHandler("/error", new RequestHandler.IDataHandler() {
+            @Override
+            public Object getData()
+            {
+                return String.valueOf(ServiceWrapper.getError());
+            }
+        }));
+        REQUESTS.add(new StandardRequestHandler("/console", new RequestHandler.IDataHandler() {
+            @Override
+            public Object getData()
+            {
+                if (ServiceWrapper.getWeightScale() != null)
+                {
+                    String output = ServiceWrapper.getConsoleOutput();
+                    String[] lines = output.split("\n");
+                    String actualOutput = "";
+                    
+                    int lineCountMax = 10000;
+                    
+                    for (int x = lines.length - 1; x >= 0; x--)
+                    {
+                        String line = lines[x];
+                        
+                        if (x >= lines.length - lineCountMax)
+                        {
+                            actualOutput = line + "\n" + actualOutput;
+                        }
+                    }
+                    
+                    return String.valueOf(actualOutput);
+                }
+                
+                return "no_data";
             }
         }));
         REQUESTS.add(new StandardRequestHandler("/sys/ports/com", new RequestHandler.IDataHandler() {
@@ -118,6 +168,7 @@ public class WebServer implements Runnable
                 catch (IOException e)
                 {
                     System.err.println("Server Connection error : " + e.getMessage());
+                    ServiceWrapper.setError("server_error: " + e.getMessage());
                 }
                 finally
                 {
@@ -328,6 +379,16 @@ public class WebServer implements Runnable
 
     public static void sendData(PrintWriter out, OutputStream dataOut, byte[] dataBytes, int dataLength) throws IOException
     {
+        if (dataOut == null)
+        {
+            return;
+        }
+        
+        if (dataBytes == null)
+        {
+            return;
+        }
+        
         dataOut.write(dataBytes, 0, dataLength);
         dataOut.flush();
     }
