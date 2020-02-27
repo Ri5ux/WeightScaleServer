@@ -67,13 +67,18 @@ public class WebServer implements Runnable
             public Object getData()
             {
                 System.out.println("Sending zero command to scale...");
-                boolean result = ServiceWrapper.getWeightScale().reset();
-                
+                boolean result = false;
+
+                if (ServiceWrapper.getWeightScale() != null)
+                {
+                    result = ServiceWrapper.getWeightScale().reset();
+                }
+
                 if (!result)
                 {
                     System.out.println("Scale zero failed.");
                 }
-                
+
                 return String.valueOf(result);
             }
         }));
@@ -100,22 +105,22 @@ public class WebServer implements Runnable
                     String output = ServiceWrapper.getConsoleOutput();
                     String[] lines = output.split("\n");
                     String actualOutput = "";
-                    
+
                     int lineCountMax = 10000;
-                    
+
                     for (int x = lines.length - 1; x >= 0; x--)
                     {
                         String line = lines[x];
-                        
+
                         if (x >= lines.length - lineCountMax)
                         {
                             actualOutput = line + "\n" + actualOutput;
                         }
                     }
-                    
+
                     return String.valueOf(actualOutput);
                 }
-                
+
                 return "no_data";
             }
         }));
@@ -243,13 +248,16 @@ public class WebServer implements Runnable
                 /**
                  * if (request.endsWith("/")) { request += DEFAULT_FILE; }
                  * 
-                 * if (method.equals("GET")) { File file = new File(WEB_ROOT, request); int fileLength = (int)
-                 * file.length(); byte[] fileData = readFileData(file, fileLength);
+                 * if (method.equals("GET")) { File file = new File(WEB_ROOT, request); int
+                 * fileLength = (int) file.length(); byte[] fileData = readFileData(file,
+                 * fileLength);
                  * 
-                 * buildGenericHeader(out, dataOut, fileLength); sendData(out, dataOut, fileData, fileLength); }
+                 * buildGenericHeader(out, dataOut, fileLength); sendData(out, dataOut,
+                 * fileData, fileLength); }
                  * 
-                 * if (verbose) { String content = getContentType(request); System.out.println("File " + request + "
-                 * of type " + content + " returned"); }
+                 * if (verbose) { String content = getContentType(request);
+                 * System.out.println("File " + request + " of type " + content + " returned");
+                 * }
                  **/
 
                 String o = "<style>html {font-family: 'Segoe UI', Arial; color: #FFFFFF; background-color: #000000; margin: 0px;} body {max-width: 400px; margin: 30px auto; text-align: center;} a {color: #00AAFF;}</style><h2>Weight Scale Web Server</h2><a href='https://github.com/Ri5ux/WeightScaleServer'>https://github.com/Ri5ux/WeightScaleServer<br/></a>Copyright &copy; 2019 ASX Electronics";
@@ -383,12 +391,12 @@ public class WebServer implements Runnable
         {
             return;
         }
-        
+
         if (dataBytes == null)
         {
             return;
         }
-        
+
         dataOut.write(dataBytes, 0, dataLength);
         dataOut.flush();
     }
